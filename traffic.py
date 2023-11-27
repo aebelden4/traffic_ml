@@ -30,7 +30,7 @@ dt_pickle = open('dt_traffic.pickle', 'rb')
 clr_dt = pickle.load(dt_pickle) 
 dt_pickle.close() 
 
-Random Forest
+# Random Forest
 rf_pickle = open('rf_traffic.pickle', 'rb') 
 clr_rf = pickle.load(rf_pickle) 
 rf_pickle.close() 
