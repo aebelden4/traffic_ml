@@ -30,10 +30,10 @@ dt_pickle = open('dt_traffic.pickle', 'rb')
 clr_dt = pickle.load(dt_pickle) 
 dt_pickle.close() 
 
-# Random Forest
-# rf_pickle = open('rf_traffic.pickle', 'rb') 
-# clr_rf = pickle.load(rf_pickle) 
-# rf_pickle.close() 
+Random Forest
+rf_pickle = open('rf_traffic.pickle', 'rb') 
+clr_rf = pickle.load(rf_pickle) 
+rf_pickle.close() 
 
 # AdaBoost
 ada_pickle = open('ada_traffic.pickle', 'rb') 
@@ -68,7 +68,7 @@ train_X, test_X, train_y, test_y = train_test_split(features, output, test_size 
 
 ### Creating Model Metrics Dataframe ###
 pred1 = clr_dt.predict(test_X)
-# pred2 = clr_rf.predict(test_X)
+pred2 = clr_rf.predict(test_X)
 pred3 = clr_ada.predict(test_X)
 pred4 = clr_xgb.predict(test_X)
 
@@ -76,8 +76,8 @@ pred4 = clr_xgb.predict(test_X)
 r2_1 = r2_score(test_y, pred1)
 rmse_1 = sqrt(mean_squared_error(test_y, pred1))
 
-# r2_2 = r2_score(test_y, pred2)
-# rmse_2 = sqrt(mean_squared_error(test_y, pred2))
+r2_2 = r2_score(test_y, pred2)
+rmse_2 = sqrt(mean_squared_error(test_y, pred2))
 
 r2_3 = r2_score(test_y, pred3)
 rmse_3 = sqrt(mean_squared_error(test_y, pred3))
@@ -87,12 +87,9 @@ rmse_4 = sqrt(mean_squared_error(test_y, pred4))
 
 # Create dataframe
 data = {
-    'ML Model': ['Decision Tree', #'Random Forest', 
-                 'AdaBoost', 'XGBoost'],
-    'R2': [r2_1, #r2_2, 
-           r2_3, r2_4],
-    'RMSE': [rmse_1, #rmse_2, 
-             rmse_3, rmse_4]
+    'ML Model': ['Decision Tree', 'Random Forest', 'AdaBoost', 'XGBoost'],
+    'R2': [r2_1, r2_2, r2_3, r2_4],
+    'RMSE': [rmse_1, rmse_2, rmse_3, rmse_4]
 }
 
 models_df = pd.DataFrame(data)
@@ -145,8 +142,7 @@ with st.form('user_inputs'):
                               '21:00:00', '22:00:00', '23:00:00']) 
 
   model = st.selectbox('Select Machine Learning Model for Prediction', options=
-                         ['Decision Tree', #'Random Forest', 
-                          'AdaBoost', 'XGBoost']) 
+                         ['Decision Tree', 'Random Forest', 'AdaBoost', 'XGBoost']) 
   
   # Print Model Metrics Dataframe
   st.dataframe(models_df)
@@ -318,8 +314,8 @@ elif time == '23:00:00':
 
 if model == 'Decision Tree': 
    model_selection = clr_dt 
-# elif model == 'Random Forest': 
-#    model_selection = clr_rf 
+elif model == 'Random Forest': 
+   model_selection = clr_rf 
 elif model == 'AdaBoost': 
    model_selection = clr_ada
 elif model == 'XGBoost': 
@@ -356,8 +352,8 @@ st.write('{} Prediction: {}'.format(model, new_prediction[0]))
 st.subheader("Plot of Feature Importance")
 if model == 'Decision Tree': 
    st.image('dt_feature_imp.svg')
-# elif model == 'Random Forest': 
-#    st.image('rf_feature_imp.svg')
+elif model == 'Random Forest': 
+   st.image('rf_feature_imp.svg')
 elif model == 'AdaBoost': 
    st.image('ada_feature_imp.svg')
 elif model == 'XGBoost': 
